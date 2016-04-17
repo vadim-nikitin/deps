@@ -17,7 +17,9 @@ type dependency struct {
 	Addr string
 }
 
-func getDeps(lddOutput string) []dependency {
+type GetDepsFunc func(lddOutput string) []dependency
+
+func getDependencies(lddOutput string) []dependency {
 	lines := strings.Split(lddOutput, "\n")
 	depsCount := len(lines) - 1
 	deps := make([]dependency, depsCount)
@@ -52,7 +54,7 @@ func getDeps(lddOutput string) []dependency {
 
 var visitedDeps map[string]bool
 
-func walkDeps(path, dir string) error {
+func walkDeps(path, dir string, getDeps GetDepsFunc) error {
 	// Do not walk among visited paths,
 	// or else the recursion will be infinite
 	if _, ok := visitedDeps[path]; ok {
@@ -79,7 +81,7 @@ func walkDeps(path, dir string) error {
 		cp := exec.Command("cp", "--parent", d.Path, dir)
 		cp.Run()
 
-		if err := walkDeps(d.Path, dir); err != nil {
+		if err := walkDeps(d.Path, dir, getDeps); err != nil {
 			return err
 		}
 	}
@@ -101,7 +103,7 @@ func main() {
 	}
 
 	visitedDeps = make(map[string]bool)
-	if err := walkDeps(what, whereToCopy); err != nil {
+	if err := walkDeps(what, whereToCopy, getDependencies); err != nil {
 		panic("An error has occured while gathering dependencies - " + err.Error())
 	}
 
