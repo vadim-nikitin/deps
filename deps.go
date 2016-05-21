@@ -1,5 +1,5 @@
 /**
-* deps - dependency management utility for Linux executables
+  deps - dependency management utility for Linux executables
  */
 package main
 
