@@ -1,6 +1,6 @@
 /**
   deps - dependency management utility for Linux executables
- */
+*/
 package main
 
 import (

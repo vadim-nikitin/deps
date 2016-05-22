@@ -6,11 +6,11 @@ It gather dependencies into a directory, saving original dependency directory tr
 so the program can be started from inside a Docker container or chroot environment.
 The circular dependencies are handled as well.
 
-To build deps execute these commands in your $GOPATH directory:
+To build deps execute these commands:
 
 ```bash
 git clone https://github.com/vadim-nikitin/deps.git
-go install deps
+make
 ```
 
 Now you are able to use deps.
