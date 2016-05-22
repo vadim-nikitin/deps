@@ -10,6 +10,7 @@ To build deps execute these commands:
 
 ```bash
 git clone https://github.com/vadim-nikitin/deps.git
+cd deps
 make
 ```
 
